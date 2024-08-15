@@ -7,7 +7,7 @@ __version__ = "0.0.0"
 
 REPO_NAME = "Cut-Your-Text"
 AUTHOR_USER_NAME = "PhamAnhTienn"
-SRC_REPO = "Cut Your Text"
+SRC_REPO = "CutYourText"
 AUTHOR_EMAIL = "tienpa.vn@gmail.com"
 
 setuptools.setup(
