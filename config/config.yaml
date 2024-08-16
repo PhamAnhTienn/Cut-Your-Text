@@ -10,3 +10,11 @@ data_validation:
   root_dir: artifacts/data_validation
   STATUS_FILE: artifacts/data_validation/status.txt
   ALL_REQUIRED_FILES: ["data.zip", "train.csv", "test.csv", "validation.csv"]
+
+data_transformation:
+  root_dir: artifacts/data_transformation
+  data_path:
+    train: artifacts/data_ingestion/train.csv
+    test: artifacts/data_ingestion/test.csv
+    validation: artifacts/data_ingestion/validation.csv
+  tokenizer_name: "facebook/bart-large-cnn"
