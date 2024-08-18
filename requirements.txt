@@ -1,8 +1,10 @@
 --extra-index-url https://download.pytorch.org/whl/cu121
-transformers
+transformers[torch]
 transformers[sentencepiece]
 datasets
+accelerate>=0.21.0
 sacrebleu 
+evaluate
 rouge_score 
 py7zr
 pandas

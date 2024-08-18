@@ -1,6 +1,6 @@
 from CutYourText.constants import *
 from CutYourText.utils.common import read_yaml, create_directories
-from CutYourText.entity import DataIngestionConfig, DataValidationConfig
+from CutYourText.entity import DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainerConfig
 
 class ConfigurationManager:
     def __init__( self, config_filepath = CONFIG_FILE_PATH, params_filepath = PARAMS_FILE_PATH ):
@@ -35,3 +35,43 @@ class ConfigurationManager:
         )
         
         return data_validation_config
+
+    def get_data_transformation_config( self ):
+        config = self.config.data_transformation
+        
+        create_directories( [config.root_dir] )
+        
+        data_transformation_config = DataTransformationConfig( 
+            root_dir = config.root_dir,
+            data_path = config.data_path,
+            tokenizer_name = config.tokenizer_name
+        )
+        
+        return data_transformation_config
+    
+    def get_model_trainer_config(self):
+        config = self.config.model_trainer
+        params = self.params.TrainingArguments
+
+        create_directories([config.root_dir])
+
+        model_trainer_config = ModelTrainerConfig(
+            root_dir=config.root_dir,
+            data_path=config.data_path,
+            model_ckpt = config.model_ckpt,
+            num_train_epochs = params.num_train_epochs,
+            warmup_steps = params.warmup_steps,
+            per_device_train_batch_size = params.per_device_train_batch_size,
+            per_device_eval_batch_size = params.per_device_eval_batch_size,
+            weight_decay = params.weight_decay,
+            logging_steps = params.logging_steps,
+            eval_strategy = params.eval_strategy,
+            eval_steps = params.eval_steps,
+            save_steps = params.save_steps,
+            gradient_accumulation_steps = params.gradient_accumulation_steps,
+            learning_rate = params.learning_rate,
+            fp16 = params.fp16,
+            save_total_limit = params.save_total_limit
+        )
+
+        return model_trainer_config
