@@ -38,3 +38,11 @@ class ModelTrainerConfig:
     learning_rate: float
     fp16: bool
     save_total_limit: int
+
+@dataclass(frozen=True)
+class ModelEvaluationConfig:
+    root_dir: Path
+    data_path: Path
+    model_path: Path
+    tokenizer_path: Path
+    metric_file_name: Path
