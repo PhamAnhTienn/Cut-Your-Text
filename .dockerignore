@@ -1,0 +1,8 @@
+client/
+research
+venv
+README.md
+LICENSE
+logs
+src/Cut_Your_Text.egg-info
+__pycache__

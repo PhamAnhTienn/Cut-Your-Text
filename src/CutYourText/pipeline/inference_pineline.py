@@ -2,7 +2,7 @@ from CutYourText.config.configuration import ConfigurationManager
 from transformers import AutoTokenizer
 from transformers import pipeline
 
-class PredictionPipeline:
+class InferencePipeline:
     def __init__(self):
         self.config = ConfigurationManager().get_model_evaluation_config()
 

@@ -1,74 +1,100 @@
 import React, { useState } from 'react';
-import './index.css';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Fade,
+  Paper,
+  TextField,
+  Typography,
+} from '@mui/material';
 
 const Summarize: React.FC = () => {
-    const [text, setText] = useState<string>('');
-    const [length, setLength] = useState<string>('Short');
-    const [summary, setSummary] = useState<string>(''); 
+  const [text, setText] = useState<string>('');
+  const [summary, setSummary] = useState<string>('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleSummarize = async () => {
-        try {
-            const response = await fetch( 'http://localhost:8080/predict', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body : JSON.stringify({text}),
-            });
+  const handleSummarize = async () => {
+    if (!text.trim()) return;
+    setIsLoading(true);
+    try {
+      const response = await fetch('http://localhost:8080/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setSummary(data.summary);
+      } else {
+        console.error('Error:', response.statusText);
+      }
+    } catch (error) {
+      console.error('Error', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-            if ( response.ok ) {
-                const data = await response.json();
-                setSummary(data.summary);
-            } else {
-                console.error('Error:', response.statusText);
-            }
+  return (
+    <Container maxWidth="md" sx={{ py: 4 }}>
+      <Paper elevation={3} sx={{ p: 3, mb: 2, textAlign: 'center' }}>
+        <Typography variant="h4" gutterBottom>
+            Dialogue Summarization
+        </Typography>
+        <Typography variant="subtitle1" mb={2}>
+          Paste your text below and let AI do the magic ✨
+        </Typography>
 
-        } catch (error) {
-            console.error('Error', error)
-        }
+        <TextField
+          multiline
+          rows={8}
+          variant="outlined"
+          placeholder="Enter or paste your text here..."
+          fullWidth
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          sx={{ mb: 2 }}
+        />
 
-    };
+        <Box position="relative" display="inline-block">
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isLoading || !text.trim()}
+            onClick={handleSummarize}
+          >
+            {isLoading ? 'Loading...' : 'Summarize'}
+          </Button>
+          {isLoading && (
+            <CircularProgress
+              size={24}
+              sx={{
+                color: 'primary.main',
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }}
+            />
+          )}
+        </Box>
+      </Paper>
 
-    return (
-        <div className="summarize-container">
-            <div className="input-summary-wrapper">
-                <div className="summarize-input">
-                    <div className="summarize-length">
-                        <label>Summary Length: </label>
-                        <input
-                            type="range"
-                            min="0"
-                            max="100"
-                            value={length === 'Short' ? 0 : 100}
-                            onChange={(e) =>
-                                setLength(e.target.value === '0' ? 'Short' : 'Long')
-                            }
-                        />
-                        <span>{length}</span>
-                    </div>
-
-                    <textarea
-                        className="summarize-textarea"
-                        placeholder="Enter or paste your text and press &quot;Summarize.&quot;"
-                        value={text}
-                        onChange={(e) => setText(e.target.value)}
-                    />
-
-                    <button
-                        className="summarize-btn"
-                        onClick={handleSummarize}
-                    >
-                        Summarize
-                    </button>
-                </div>
-
-                <div className="summary-result">
-                    <h3>Summary Result:</h3>
-                    <p>{summary}</p>
-                </div>
-            </div>
-        </div>
-    );
+      <Fade in={!!summary}>
+        <Paper elevation={2} sx={{ p: 3, mt: 2 }}>
+          <Typography variant="h5" gutterBottom>
+            Summary Result
+          </Typography>
+          <Typography variant="body1">
+            {summary || 'Your summary will appear here...'}
+          </Typography>
+        </Paper>
+      </Fade>
+    </Container>
+  );
 };
 
 export default Summarize;

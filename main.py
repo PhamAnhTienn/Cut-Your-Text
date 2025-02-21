@@ -1,61 +1,27 @@
-from CutYourText.pipeline.stage_01_data_ingestion import DataIngestionTrainingPipeline
-from CutYourText.pipeline.stage_02_data_validation import DataValidationTrainingPipeline
-from CutYourText.pipeline.stage_03_data_transformation import DataTransformationTrainingPipeline
-from CutYourText.pipeline.stage_04_model_trainer import ModelTrainerTrainingPipeline
-from CutYourText.pipeline.stage_05_model_evaluation import ModelEvaluationTrainingPipeline
+from CutYourText.pipeline.feature_pineline import FeaturePipeline
+from CutYourText.pipeline.training_pineline import TrainingPipeline
 from CutYourText.logging import logger
 
 
 
-STAGE_NAME = "Data Ingestion stage"
+STAGE_NAME = "Feature stage"
 try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   data_ingestion = DataIngestionTrainingPipeline()
-   data_ingestion.main()
+   feature_pineline = FeaturePipeline()
+   feature_pineline.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\n\n")
 except Exception as e:
         logger.exception(e)
         raise e
      
 
-STAGE_NAME = "Data Validation stage"
+STAGE_NAME = "Training stage"
 try:
    logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   data_validation = DataValidationTrainingPipeline()
-   data_validation.main()
+   training_pineline = TrainingPipeline()
+   training_pineline.main()
    logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\n\n")
 except Exception as e:
         logger.exception(e)
         raise e   
      
-
-STAGE_NAME = "Data Transformation stage"
-try:
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   data_transformation = DataTransformationTrainingPipeline()
-   data_transformation.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\n\n")
-except Exception as e:
-        logger.exception(e)
-        raise e   
-     
-     
-STAGE_NAME = "Model Trainer stage"
-try:
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   model_trainer = ModelTrainerTrainingPipeline()
-   model_trainer.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\n\n")
-except Exception as e:
-        logger.exception(e)
-        raise e 
-
-STAGE_NAME = "Model Evaluation stage"
-try:
-   logger.info(f">>>>>> stage {STAGE_NAME} started <<<<<<") 
-   model_evaluation = ModelEvaluationTrainingPipeline()
-   model_evaluation.main()
-   logger.info(f">>>>>> stage {STAGE_NAME} completed <<<<<<\n\n\n")
-except Exception as e:
-        logger.exception(e)
-        raise e 
