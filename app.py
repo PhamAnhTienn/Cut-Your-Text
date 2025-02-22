@@ -33,7 +33,7 @@ async def train():
         return Response(f"Error Occurred! {e}")
 
 
-@app.post("/predict")
+@app.post("/summarize")
 async def predict_route(request: Request):
     try:
         data = await request.json()
